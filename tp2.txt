@@ -1,0 +1,95 @@
+Exercice 1.1 :
+
+Le principe est d’avoir deux clefs, de telle sorte que
+• un message chiffré avec la première clef ne peut être déchiffré qu’avec la seconde,
+• un message chiffré avec la seconde clef ne peut être déchiffré qu’avec la première.
+▶ Par convention, l’une de ces clefs est appelée la clef privée et l’autre la clef publique
+
+
+Exercice 1.2 :
+
+P et Q doivent etre égale a la somme de bits / 2
+
+
+Exercice 1.4 :
+
+𝑒 dois être premier avec 𝜑(𝑛) et strictement inférieur à 𝜑(𝑛), qu’on appelle l’exposant de chiffrement.
+
+Exercice 1.6 :
+
+L'exposant de déchiffrement d (privé) se calcule en fonction des valeurs e et n, voici comment on le calcule :
+
+Inverse de 𝑒 modulo 𝜑(𝑛) et strictement inférieur à 𝜑(𝑛), qu’on appelle l’exposant de déchiffrement.
+
+Exercice 2.1 :
+
+(a) Bob doit utiliser la clé publique d'Alice, c'est-à-dire 𝐴𝑝. La clé publique est connue de tous, et elle permet de chiffrer un message de manière à ce qu'il ne puisse être déchiffré que par la clé privée correspondante, qui est connue uniquement d'Alice.
+
+(b) Alice doit utiliser sa clé privée, c'est-à-dire 𝐴𝑠. La clé privée est nécessaire pour déchiffrer un message qui a été chiffré avec la clé publique correspondante.
+
+Exercice 2.2 : 
+
+L'opération aux quelle consiste chacune des opérations décrite à la question précédente sont les suivante :
+
+C = m^e mod n. pour chiffrer le message dans notre exemple cela nous donne B(m) = m^e(public d'Alice) mod n.
+m = m^d mod n. pour déchiffrer le message dans notre exemple cela nous donne m(B) = m^d(privé de Bob) mod n.
+
+Exercice 3.1 :
+
+(a) Bob doit utiliser sa clef privée 𝐵𝑠 pour signer un message.
+
+(b) Alice doit utiliser la clef publique 𝐵𝑝 pour vérifier l'authenticité du message qui prétend être signé par Bob.
+
+Exercice 3.2 :
+
+La procédure de signature numérique RSA avec un condensé est la suivante :
+
+-> Calcul du condensé
+
+Le premier étape consiste à calculer un condensé du message à signer. Une fonction de hachage est utilisée pour générer un nombre binaire de taille fixe à partir du message. Ce condensé est souvent appelé "empreinte numérique".
+
+-> Exponentiation du condensé
+
+Le deuxième étape consiste à exponentier le condensé par la clef privée du signataire. Cela permet de créer une signature numérique qui est unique au message et à la clef privée.
+
+-> Transmission du message et de la signature
+
+Le signataire transmet ensuite le message et la signature au destinataire.
+
+La forme du message signé est la suivante : 
+
+Message | Signature
+
+(𝑚, 𝑠) 
+
+Exercice 4.1 :
+
+La malléabilité de RSA est un problème de sécurité qui permet d'obtenir un nouveau chiffré valide à partir d'un chiffré existant. Cela est possible car la fonction de déchiffrement RSA est injective, mais pas surjective.
+
+Pour illustrer ce problème, supposons que nous avons un message clair m et sa signature numérique s, calculée avec la fonction de signature numérique RSA.
+
+m = 1234567890
+s = rsa.sign(m, s_key)
+
+Si nous interceptons le chiffré c du message m, nous pouvons le modifier en ajoutant ou en supprimant des bits. Cela ne changera pas le message clair original, mais cela changera la signature numérique.
+
+c = rsa.encrypt(m, e_key)
+c += 1
+
+Nous pouvons ensuite utiliser le nouveau chiffré c pour obtenir une nouvelle signature numérique s'.
+
+s' = rsa.sign(c, s_key)
+
+La nouvelle signature numérique s' est valide, car elle est calculée à partir du même condensé que la signature originale s.
+
+rsa.verify(c, s', e_key)
+
+Ce problème de sécurité peut être utilisé pour produire des attaques par falsification de message. Par exemple, un attaquant pourrait intercepter un message signé, puis le modifier pour ajouter ou supprimer des informations. L'attaquant pourrait ensuite utiliser la nouvelle signature numérique pour faire croire au destinataire que le message est authentique.
+
+Exercice 4.2 :
+
+Le déterminisme du chiffrement RSA est un problème car il peut être utilisé pour mener des attaques par analyse de fréquence.
+
+L'analyse de fréquence est une technique d'attaque qui exploite la distribution des lettres dans une langue naturelle. En effet, certaines lettres sont plus fréquentes que d'autres dans une langue naturelle. Par exemple, la lettre "e" est la lettre la plus fréquente en français.
+
+Si un attaquant intercepte deux messages chiffrés avec la même clef, il peut utiliser l'analyse de fréquence pour déterminer la fréquence des lettres dans les messages clairs. Cela lui permet ensuite de déchiffrer les messages clairs.
